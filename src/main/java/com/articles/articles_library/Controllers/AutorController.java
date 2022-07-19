@@ -22,7 +22,6 @@ public class AutorController {
     @GetMapping("/allAuthors")
     public List<AutorModel> getAllAutorsEnd(){
        return autorRepository.getAllAutors();
-
     }
 
 }
