@@ -9,4 +9,7 @@ public interface IAutor {
     static List<AutorModel> getAllAutors() {
         return null;
     }
+    static AutorModel getAllAutorById(int id) {
+        return null;
+    }
 }

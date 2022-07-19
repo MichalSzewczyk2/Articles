@@ -4,8 +4,7 @@ import com.articles.articles_library.DTOS.AutorModel;
 import com.articles.articles_library.Interfaces.IAutor;
 import com.articles.articles_library.Repositories.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,4 +23,8 @@ public class AutorController {
        return autorRepository.getAllAutors();
     }
 
+    @RequestMapping(value = "/Author/{id}", method = RequestMethod.GET)
+    public AutorModel getAuthor(@PathVariable int id){
+        return autorRepository.getAuthorById(id);
+    }
 }

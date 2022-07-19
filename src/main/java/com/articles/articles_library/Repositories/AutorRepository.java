@@ -19,4 +19,12 @@ public class AutorRepository implements IAutor
         return jdbcTemplate.query("SELECT * FROM autor", BeanPropertyRowMapper.newInstance(AutorModel.class));
     }
 
+    public AutorModel getAuthorById(int id) {
+        AutorModel autorModel = getAllAutors().stream()
+                .filter( t -> id == t.getId())
+                .findFirst()
+                .orElse(null);
+        return autorModel;
+
+    }
 }
