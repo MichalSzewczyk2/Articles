@@ -21,4 +21,12 @@ public class ContentRepository implements IContent {
         return jdbcTemplate.query("SELECT * FROM tresc", BeanPropertyRowMapper.newInstance(ContentModel.class));
     }
 
+    public ContentModel getContentById(int id) {
+        ContentModel contentModel = getAllContents().stream()
+                .filter( t -> id == t.getId())
+                .findFirst()
+                .orElse(null);
+        return contentModel;
+    }
+
 }

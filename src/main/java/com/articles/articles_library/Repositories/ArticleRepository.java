@@ -1,10 +1,10 @@
 package com.articles.articles_library.Repositories;
 
 import com.articles.articles_library.DTOS.ArticleModel;
-import com.articles.articles_library.DTOS.AutorModel;
 import com.articles.articles_library.DTOS.ContentModel;
 import com.articles.articles_library.Interfaces.IArticle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,11 +20,12 @@ public class ArticleRepository implements IArticle {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    final
-    AutorRepository autorRepository;
+    final AutorRepository autorRepository;
+    final ContentRepository contentRepository;
 
-    public ArticleRepository(AutorRepository autorRepository) {
+    public ArticleRepository(AutorRepository autorRepository, ContentRepository contentRepository) {
         this.autorRepository = autorRepository;
+        this.contentRepository = contentRepository;
     }
 
 
@@ -35,13 +36,15 @@ public class ArticleRepository implements IArticle {
         for (Map article : articles) {
 
 
+
+
             ArticleModel articleModel = new ArticleModel();
             articleModel.setId((Integer) article.get("id"));
             articleModel.setDataPublikacji((Date)article.get("dataPublikacji"));
             articleModel.setNazwaCzasopisma((String)article.get("nazwaCzasopisma"));
             articleModel.setDataZapisu((Timestamp) article.get("dataZapisu"));
             articleModel.setAutor(autorRepository.getAuthorById((Integer)article.get("idAutora")));
-            articleModel.setContent(new ContentModel(1,"tytul","tresc"));
+            articleModel.setContent(contentRepository.getContentById((Integer)article.get("idTresci")));
             APIarticles.add(articleModel);
 
         }
@@ -50,7 +53,23 @@ public class ArticleRepository implements IArticle {
     }
 
     public ArticleModel getArticleById(int id){
-       return null;
-        // return jdbcTemplate.queryForObject("SELECT * FROM articles WHERE id = ?", new Object[]{})
+
+        return jdbcTemplate.queryForObject("SELECT * FROM artykul WHERE id = ?",
+                new Object[] { id }, (rs, rowNum) -> {
+                    ArticleModel articleModel = new ArticleModel();
+                    articleModel.setId(rs.getInt("id"));
+                    articleModel.setDataPublikacji(rs.getDate("dataPublikacji"));
+                    articleModel.setNazwaCzasopisma(rs.getString("nazwaCzasopisma"));
+                    articleModel.setDataZapisu(rs.getTimestamp("dataZapisu"));
+                    articleModel.setAutor(autorRepository.getAuthorById(rs.getInt("idAutora")));
+                    articleModel.setContent(contentRepository.getContentById(rs.getInt("idTresci")));
+
+        return articleModel;}
+                );
+
+
+
+
+
     }
 }

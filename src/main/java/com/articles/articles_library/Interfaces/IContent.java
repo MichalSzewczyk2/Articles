@@ -10,5 +10,8 @@ public interface IContent {
     static List<ContentModel> getAllContents() {
         return null;
     }
+    static ContentModel getContentById(int id) {
+        return null;
+    }
 
 }

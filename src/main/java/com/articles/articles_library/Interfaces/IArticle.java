@@ -14,4 +14,8 @@ public interface IArticle {
         return null;
     };
 
+    static List<ArticleModel> getArticleByWord(String word){
+        return null;
+    }
+
 }

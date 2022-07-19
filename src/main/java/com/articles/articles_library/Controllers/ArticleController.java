@@ -2,8 +2,7 @@ package com.articles.articles_library.Controllers;
 
 import com.articles.articles_library.DTOS.ArticleModel;
 import com.articles.articles_library.Repositories.ArticleRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ArticleController {
@@ -17,5 +16,10 @@ public class ArticleController {
     @GetMapping("/allArticle")
     public Iterable<ArticleModel> getAllArticles() {
         return articleRepository.getAllArticles();
+    }
+
+    @RequestMapping(value = "/Article/{id}", method = RequestMethod.GET)
+    public ArticleModel getArticle(@PathVariable int id) {
+        return articleRepository.getArticleById(id);
     }
 }
