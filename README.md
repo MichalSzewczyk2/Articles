@@ -12,17 +12,48 @@ Aplikacja zawiera następujące endpointy:
   - /allArticles - zwraca on wszystkie artykuły posortowane według daty publikacji w kolejności nie rosnącej
   - /Article/{id} - zwraca on pojedynczy artykuł posiadający podany w adresie URL numer id 
   - /ArticleWord - zwraca on listę wszystkich artykulów posiadających w treści lub tytule szukaną frazę. Frazę, którą chcemy wyszukac podajemy w ciele requestu w formacie:
-  
-  ![image](https://user-images.githubusercontent.com/105129053/180037908-b4f38062-afd8-46c1-a93f-cb7c61622e58.png)
+ 
+ ```
+ 
+  tytul
 
+ ```
   
   - /addArticle - pozwala on na zapisanie do bazy danych nowego artykułu. Zawartość nowego wpisu podajemy w body zapytania w formie JSON w następujący sposób:
   
-  ![image](https://user-images.githubusercontent.com/105129053/180037057-2468e92e-5bd3-4948-8cdb-79c003d6e3d3.png)
-    
-  - /updateArticle - pozwala on na zmianę wartości zapisanych w bazie danych dla konkretnego artykułu. Dane do zmiany podajemy w ciele requestu w formacie JSON w następujący sposób:
   
-  ![image](https://user-images.githubusercontent.com/105129053/180037375-018fcd2a-acb3-4a8f-9152-019ff589191c.png)
+```JSON
+{
+    "title":"Ostateczny test",
+    "content":"Dodajemy nowy artykul z finalna trescia",
+    "publicationDate":"2021-01-03",
+    "name":"Gazeta",
+    "authorName":"Tomasz",
+    "authorSurname":"Działdowy"
+}
+```
+
+
+  - /updateArticle - pozwala on na zmianę wartości zapisanych w bazie danych dla konkretnego artykułu. Dane do zmiany podajemy w ciele requestu w formacie JSON w następujący sposób:
+
+```JSON
+{
+    "id": 2,
+    "content": {
+        "id": 3,
+        "title": "gen tytul nowy ",
+        "content": "Proba wykrywania w tresci"
+    },
+    "publicationDate": "2022-07-20",
+    "articleName": "test 4",
+    "author": {
+        "id": 4,
+        "name": "Mariusz ",
+        "surname": "Kowalski"
+    },
+    "saveDate": "2022-07-20T07:24:01.000+00:00"
+}
+```
 
   - /DeleteArticle/{id} - pozwala na usunięcie artykułu o podanym id w adresie URL z bazy danych
   
