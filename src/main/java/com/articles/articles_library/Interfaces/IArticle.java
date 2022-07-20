@@ -18,4 +18,5 @@ public interface IArticle {
         return null;
     }
 
+    static void removeArticle(int id) {}
 }

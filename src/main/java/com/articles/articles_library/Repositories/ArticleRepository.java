@@ -63,13 +63,32 @@ public class ArticleRepository implements IArticle {
                     articleModel.setDataZapisu(rs.getTimestamp("dataZapisu"));
                     articleModel.setAutor(autorRepository.getAuthorById(rs.getInt("idAutora")));
                     articleModel.setContent(contentRepository.getContentById(rs.getInt("idTresci")));
+                    return articleModel;}
+        );
+    }
 
-        return articleModel;}
-                );
+    public List<ArticleModel> getArticleByWord(String word){
 
 
 
+        List <Map<String, Object>> articles = jdbcTemplate.queryForList("SELECT * FROM artykul NATURAL JOIN tresc t WHERE t.title LIKE ? OR t.content LIKE ?",
+                new Object[] { "%" + word + "%", "%" + word + "%"});
 
+        List<ArticleModel> APIarticles = new ArrayList<ArticleModel>();
+        for (Map article : articles) {
+
+            ArticleModel articleModel = new ArticleModel();
+            articleModel.setId((Integer) article.get("id"));
+            articleModel.setDataPublikacji((Date)article.get("dataPublikacji"));
+            articleModel.setNazwaCzasopisma((String)article.get("nazwaCzasopisma"));
+            articleModel.setDataZapisu((Timestamp) article.get("dataZapisu"));
+            articleModel.setAutor(autorRepository.getAuthorById((Integer)article.get("idAutora")));
+            articleModel.setContent(contentRepository.getContentById((Integer)article.get("idTresci")));
+            APIarticles.add(articleModel);
+
+        }
+
+        return APIarticles;
 
     }
 }
