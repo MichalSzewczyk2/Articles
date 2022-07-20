@@ -3,7 +3,7 @@
 Aplikacja ta to proste REST API służące do obsługi prostych artykułów prasowych zapisywanych w bazie danych.
 
 Aby uruchomic program należy:
-  - uruchomić serwer bazy danych mysql korzystając ze skryptu bazy danych zawartegow w plikach z rozszerzeniem .sql
+  - uruchomić serwer bazy danych mysql poprzez zaimportowanie skryptu bazy danych zawartego w plikuu o nazwie MySQLDatabase.sql
   - kod Javy wymaga zainstalowanego w środowisku kompilatora dla JAVA 11, narzędzia Maven oraz sterownika JDBC
   - aby uruchomić program należy w terminalu środowiska wpisać kolejno komędy: "mvn clean install" i "mvn spring-boot:run" 
   - z endpointami komunikujemy się za pomocą http://localhost:8080/
