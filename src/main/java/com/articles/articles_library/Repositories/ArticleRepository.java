@@ -1,11 +1,9 @@
 package com.articles.articles_library.Repositories;
 
 import com.articles.articles_library.DTOS.ArticleModel;
-import com.articles.articles_library.DTOS.AutorModel;
-import com.articles.articles_library.DTOS.ContentModel;
+import com.articles.articles_library.DTOS.NewArticleModel;
 import com.articles.articles_library.Interfaces.IArticle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,10 +19,10 @@ public class ArticleRepository implements IArticle {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    final AutorRepository autorRepository;
+    final AuthorRepository autorRepository;
     final ContentRepository contentRepository;
 
-    public ArticleRepository(AutorRepository autorRepository, ContentRepository contentRepository) {
+    public ArticleRepository(AuthorRepository autorRepository, ContentRepository contentRepository) {
         this.autorRepository = autorRepository;
         this.contentRepository = contentRepository;
     }
@@ -41,10 +39,10 @@ public class ArticleRepository implements IArticle {
 
             ArticleModel articleModel = new ArticleModel();
             articleModel.setId((Integer) article.get("id"));
-            articleModel.setDataPublikacji((Date)article.get("dataPublikacji"));
-            articleModel.setNazwaCzasopisma((String)article.get("nazwaCzasopisma"));
-            articleModel.setDataZapisu((Timestamp) article.get("dataZapisu"));
-            articleModel.setAutor(autorRepository.getAuthorById((Integer)article.get("idAutora")));
+            articleModel.setPublicationDate((Date)article.get("dataPublikacji"));
+            articleModel.setArticleName((String)article.get("nazwaCzasopisma"));
+            articleModel.setSaveDate((Timestamp) article.get("dataZapisu"));
+            articleModel.setAuthor(autorRepository.getAuthorById((Integer)article.get("idAutora")));
             articleModel.setContent(contentRepository.getContentById((Integer)article.get("idTresci")));
             APIarticles.add(articleModel);
 
@@ -59,10 +57,10 @@ public class ArticleRepository implements IArticle {
                 new Object[] { id }, (rs, rowNum) -> {
                     ArticleModel articleModel = new ArticleModel();
                     articleModel.setId(rs.getInt("id"));
-                    articleModel.setDataPublikacji(rs.getDate("dataPublikacji"));
-                    articleModel.setNazwaCzasopisma(rs.getString("nazwaCzasopisma"));
-                    articleModel.setDataZapisu(rs.getTimestamp("dataZapisu"));
-                    articleModel.setAutor(autorRepository.getAuthorById(rs.getInt("idAutora")));
+                    articleModel.setPublicationDate(rs.getDate("dataPublikacji"));
+                    articleModel.setArticleName(rs.getString("nazwaCzasopisma"));
+                    articleModel.setSaveDate(rs.getTimestamp("dataZapisu"));
+                    articleModel.setAuthor(autorRepository.getAuthorById(rs.getInt("idAutora")));
                     articleModel.setContent(contentRepository.getContentById(rs.getInt("idTresci")));
                     return articleModel;}
         );
@@ -80,10 +78,10 @@ public class ArticleRepository implements IArticle {
 
             ArticleModel articleModel = new ArticleModel();
             articleModel.setId((Integer) article.get("id"));
-            articleModel.setDataPublikacji((Date)article.get("dataPublikacji"));
-            articleModel.setNazwaCzasopisma((String)article.get("nazwaCzasopisma"));
-            articleModel.setDataZapisu((Timestamp) article.get("dataZapisu"));
-            articleModel.setAutor(autorRepository.getAuthorById((Integer)article.get("idAutora")));
+            articleModel.setPublicationDate((Date)article.get("dataPublikacji"));
+            articleModel.setArticleName((String)article.get("nazwaCzasopisma"));
+            articleModel.setSaveDate((Timestamp) article.get("dataZapisu"));
+            articleModel.setAuthor(autorRepository.getAuthorById((Integer)article.get("idAutora")));
             articleModel.setContent(contentRepository.getContentById((Integer)article.get("idTresci")));
             APIarticles.add(articleModel);
 
@@ -97,9 +95,52 @@ public class ArticleRepository implements IArticle {
         jdbcTemplate.update("DELETE FROM artykul WHERE id=?", id);
     }
 
-    static void newArticle(ArticleModel articleModel, AutorModel autorModel, ContentModel contentModel) {
+    public void newArticle(NewArticleModel model) {
+            autorRepository.addAutor(model);
+            contentRepository.addContent(model);
 
+
+        int autorId = autorRepository.addAutor(model);
+//            int autorId = jdbcTemplate.queryForObject("SELECT * FROM autor WHERE name = ? AND surname = ?",
+//                new Object[]{model.getAuthorName(), model.getAuthorSurname()}, (rs, rowNum) -> {
+//                        if (rs.next()) {
+//                            return rs.getInt("id");
+//                        }
+//                        return null;
+//                    }
+//            );
+
+            System.out.println("autorId = " + autorId);
+
+        int contentId = contentRepository.addContent(model);
+
+//            int contentId = jdbcTemplate.queryForObject("SELECT * FROM tresc WHERE title = ? AND content = ?",
+//                    new Object[]{model.getTitle(), model.getContent()}, (rs, rowNum) -> {
+//                        if (rs.next()) {
+//                            return rs.getInt("id");
+//                        }
+//                        return null;
+//                    }
+//            );
+            System.out.println("contentId = " + contentId);
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            jdbcTemplate.update("INSERT INTO artykul (idTresci,dataPublikacji,nazwaCzasopisma, idAutora,dataZapisu) VALUES (?, ?, ?, ?, ?)",
+                    autorId, model.getPublicationDate(), model.getName(), contentId, timestamp);
     }
-}
+
+    public void updateArticle(ArticleModel model){
+
+        jdbcTemplate.update("UPDATE autor SET name = ? , surname = ? WHERE id = ?",
+                model.getAuthor().getName(), model.getAuthor().getSurname(),model.getAuthor().getId());
+
+        jdbcTemplate.update("Update tresc SET title = ?, content = ? WHERE id = ?",
+                model.getContent().getTitle(), model.getContent().getContent(), model.getContent().getId());
+
+        jdbcTemplate.update("Update artykul SET dataPublikacji = ?, nazwaCzasopisma = ?, dataZapisu = ? WHERE id = ?",
+                model.getPublicationDate(), model.getArticleName(), model.getSaveDate(), model.getId());
+    }
 
 }
+
+

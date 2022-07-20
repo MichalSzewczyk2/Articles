@@ -13,9 +13,9 @@ import java.util.Date;
 public class ArticleModel {
     private int id;
     private ContentModel content;
-    private Date dataPublikacji;
-    private String nazwaCzasopisma;
-    private AutorModel autor;
-    private Timestamp dataZapisu;
+    private Date publicationDate;
+    private String articleName;
+    private AutorModel author;
+    private Timestamp saveDate;
 
 }

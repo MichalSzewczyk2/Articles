@@ -2,6 +2,7 @@ package com.articles.articles_library.Repositories;
 
 import com.articles.articles_library.DTOS.AutorModel;
 import com.articles.articles_library.DTOS.ContentModel;
+import com.articles.articles_library.DTOS.NewArticleModel;
 import com.articles.articles_library.Interfaces.IContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -29,4 +30,19 @@ public class ContentRepository implements IContent {
         return contentModel;
     }
 
+    public int addContent(NewArticleModel model) {
+        jdbcTemplate.update("INSERT INTO tresc (title, content) VALUES (?, ?)", model.getTitle(), model.getContent());
+
+        List<ContentModel> contentModels = getAllContents();
+
+        int tmpId = 0;
+
+        for (ContentModel contentModel : contentModels) {
+            if (contentModel.getTitle().equals(model.getTitle()) && contentModel.getContent().equals(model.getContent())) {
+                tmpId = contentModel.getId();
+                return tmpId;
+            }
+        }
+        return 0;
+    }
 }

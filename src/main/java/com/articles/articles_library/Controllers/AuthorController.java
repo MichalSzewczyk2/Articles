@@ -1,20 +1,18 @@
 package com.articles.articles_library.Controllers;
 
 import com.articles.articles_library.DTOS.AutorModel;
-import com.articles.articles_library.Interfaces.IAutor;
-import com.articles.articles_library.Repositories.AutorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.articles.articles_library.Repositories.AuthorRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class AutorController {
+public class AuthorController {
 
     final
-    AutorRepository autorRepository;
+    AuthorRepository autorRepository;
 
-    public AutorController(AutorRepository autorRepository) {
+    public AuthorController(AuthorRepository autorRepository) {
         this.autorRepository = autorRepository;
     }
 

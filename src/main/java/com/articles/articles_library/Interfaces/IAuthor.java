@@ -5,7 +5,7 @@ import com.articles.articles_library.DTOS.NewArticleModel;
 
 import java.util.List;
 
-public interface IAutor {
+public interface IAuthor {
 
     static List<AutorModel> getAllAutors() {
         return null;
@@ -13,5 +13,7 @@ public interface IAutor {
     static AutorModel getAllAutorById(int id) {
         return null;
     }
-    static void addAutor(NewArticleModel model) {}
+    default int addAutor(NewArticleModel model) {
+        return 0;
+    }
 }

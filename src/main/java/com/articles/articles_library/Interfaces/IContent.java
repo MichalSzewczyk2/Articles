@@ -1,6 +1,5 @@
 package com.articles.articles_library.Interfaces;
 
-import com.articles.articles_library.DTOS.AutorModel;
 import com.articles.articles_library.DTOS.ContentModel;
 import com.articles.articles_library.DTOS.NewArticleModel;
 
@@ -14,5 +13,7 @@ public interface IContent {
     static ContentModel getContentById(int id) {
         return null;
     }
-    static void addContent(NewArticleModel model) {}
+    default int addContent(NewArticleModel model) {
+        return 0;
+    }
 }
