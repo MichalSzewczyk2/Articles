@@ -17,11 +17,15 @@ public class ContentRepository implements IContent {
     JdbcTemplate jdbcTemplate;
 
     public List<ContentModel> getAllContents() {
-
         return jdbcTemplate.query("SELECT * FROM content", BeanPropertyRowMapper.newInstance(ContentModel.class));
     }
 
     public ContentModel getContentById(int id) {
+
+        if(id <= 0){
+            throw new IllegalArgumentException("Id must be greater than 0");
+        }
+
         ContentModel contentModel = getAllContents().stream()
                 .filter( t -> id == t.getId())
                 .findFirst()

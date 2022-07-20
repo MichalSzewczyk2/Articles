@@ -16,11 +16,15 @@ public class AuthorRepository implements IAuthor
     @Autowired
     JdbcTemplate jdbcTemplate;
     public List<AuthorModel> getAllAuthors() {
-
         return jdbcTemplate.query("SELECT * FROM author", BeanPropertyRowMapper.newInstance(AuthorModel.class));
     }
 
     public AuthorModel getAuthorById(int id) {
+
+        if(id <= 0){
+            throw new IllegalArgumentException("Id must be greater than 0");
+        }
+
         AuthorModel authorModel = getAllAuthors().stream()
                 .filter( t -> id == t.getId())
                 .findFirst()
