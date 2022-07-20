@@ -91,4 +91,9 @@ public class ArticleRepository implements IArticle {
         return APIarticles;
 
     }
+
+    public void deleteArticleById(int id) {
+        jdbcTemplate.update("DELETE FROM artykul WHERE id=?", id);
+    }
+
 }

@@ -26,7 +26,11 @@ public class ArticleController {
 
     @PostMapping("/ArticleWord")
     public Iterable<ArticleModel> getArticleByWord(@RequestBody String word) {
-        System.out.println(word);
         return articleRepository.getArticleByWord(word);
+    }
+
+    @RequestMapping(value = "/DeleteArticle/{id}", method = RequestMethod.GET)
+    public void deleteArticle(@PathVariable int id) {
+        articleRepository.deleteArticleById(id);
     }
 }
