@@ -40,7 +40,6 @@ public class ArticleController {
     }
     @PutMapping("/updateArticle")
     public void updateArticle(@RequestBody ArticleModel model){
-        System.out.println("model: "+ model);
         articleRepository.updateArticle(model);
     }
 }

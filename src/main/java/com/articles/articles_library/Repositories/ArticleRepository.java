@@ -69,11 +69,11 @@ public class ArticleRepository implements IArticle {
     public List<ArticleModel> getArticleByWord(String word){
 
 
-        System.out.println(word);
+
         List <Map<String, Object>> articles = jdbcTemplate.queryForList("SELECT * FROM article NATURAL JOIN content WHERE title LIKE ? OR content LIKE ?",
                 new Object[]{"%" + word + "%", "%" + word + "%"});
 
-        System.out.println(articles);
+
         List<ArticleModel> APIarticles = new ArrayList<ArticleModel>();
         for (Map article : articles) {
 
@@ -105,10 +105,10 @@ public class ArticleRepository implements IArticle {
 
 
         int authorId = authorRepository.addAuthor(model);
-        System.out.println("authorId: " + authorId);
+
 
         int contentId = contentRepository.addContent(model);
-        System.out.println("Content Id: " + contentId);
+
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             jdbcTemplate.update("INSERT INTO article (idContent, publicationDate, articleName, idAuthor, saveDate) VALUES (?, ?, ?, ?, ?)",
@@ -116,10 +116,6 @@ public class ArticleRepository implements IArticle {
     }
 
     public void updateArticle(ArticleModel model){
-
-        System.out.println(model.getAuthor().getId());
-        System.out.println(model.getAuthor().getName());
-        System.out.println(model.getAuthor().getSurname());
 
         jdbcTemplate.update("UPDATE author SET name = ?, surname = ? WHERE id = ?",
                 model.getAuthor().getName(), model.getAuthor().getSurname(),model.getAuthor().getId());
