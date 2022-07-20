@@ -1,6 +1,7 @@
 package com.articles.articles_library.Repositories;
 
 import com.articles.articles_library.DTOS.ArticleModel;
+import com.articles.articles_library.DTOS.AutorModel;
 import com.articles.articles_library.DTOS.ContentModel;
 import com.articles.articles_library.Interfaces.IArticle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +96,10 @@ public class ArticleRepository implements IArticle {
     public void deleteArticleById(int id) {
         jdbcTemplate.update("DELETE FROM artykul WHERE id=?", id);
     }
+
+    static void newArticle(ArticleModel articleModel, AutorModel autorModel, ContentModel contentModel) {
+
+    }
+}
 
 }
