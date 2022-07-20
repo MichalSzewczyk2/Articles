@@ -93,6 +93,9 @@ public class ArticleRepository implements IArticle {
     }
 
     public void deleteArticleById(int id) {
+
+        if(id <=0){throw new IllegalArgumentException("id must be greater than 0");}
+
         jdbcTemplate.update("DELETE FROM article WHERE id=?", id);
     }
 
