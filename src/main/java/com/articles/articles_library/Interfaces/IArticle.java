@@ -1,8 +1,6 @@
 package com.articles.articles_library.Interfaces;
 
 import com.articles.articles_library.DTOS.ArticleModel;
-import com.articles.articles_library.DTOS.AutorModel;
-import com.articles.articles_library.DTOS.ContentModel;
 import com.articles.articles_library.DTOS.NewArticleModel;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.articles.articles_library.Repositories;
 
-import com.articles.articles_library.DTOS.AutorModel;
 import com.articles.articles_library.DTOS.ContentModel;
 import com.articles.articles_library.DTOS.NewArticleModel;
 import com.articles.articles_library.Interfaces.IContent;
@@ -19,7 +18,7 @@ public class ContentRepository implements IContent {
 
     public List<ContentModel> getAllContents() {
 
-        return jdbcTemplate.query("SELECT * FROM tresc", BeanPropertyRowMapper.newInstance(ContentModel.class));
+        return jdbcTemplate.query("SELECT * FROM content", BeanPropertyRowMapper.newInstance(ContentModel.class));
     }
 
     public ContentModel getContentById(int id) {
@@ -31,7 +30,7 @@ public class ContentRepository implements IContent {
     }
 
     public int addContent(NewArticleModel model) {
-        jdbcTemplate.update("INSERT INTO tresc (title, content) VALUES (?, ?)", model.getTitle(), model.getContent());
+
 
         List<ContentModel> contentModels = getAllContents();
 
@@ -43,6 +42,7 @@ public class ContentRepository implements IContent {
                 return tmpId;
             }
         }
-        return 0;
+        jdbcTemplate.update("INSERT INTO content (title, content) VALUES (?, ?)", model.getTitle(), model.getContent());
+        return tmpId + 1;
     }
 }

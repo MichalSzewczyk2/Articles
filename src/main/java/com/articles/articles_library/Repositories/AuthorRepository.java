@@ -1,6 +1,6 @@
 package com.articles.articles_library.Repositories;
 
-import com.articles.articles_library.DTOS.AutorModel;
+import com.articles.articles_library.DTOS.AuthorModel;
 import com.articles.articles_library.DTOS.NewArticleModel;
 import com.articles.articles_library.Interfaces.IAuthor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,48 +15,34 @@ public class AuthorRepository implements IAuthor
 {
     @Autowired
     JdbcTemplate jdbcTemplate;
-    public List<AutorModel> getAllAutors() {
+    public List<AuthorModel> getAllAuthors() {
 
-        return jdbcTemplate.query("SELECT * FROM autor", BeanPropertyRowMapper.newInstance(AutorModel.class));
+        return jdbcTemplate.query("SELECT * FROM author", BeanPropertyRowMapper.newInstance(AuthorModel.class));
     }
 
-    public AutorModel getAuthorById(int id) {
-        AutorModel autorModel = getAllAutors().stream()
+    public AuthorModel getAuthorById(int id) {
+        AuthorModel authorModel = getAllAuthors().stream()
                 .filter( t -> id == t.getId())
                 .findFirst()
                 .orElse(null);
-        return autorModel;
+        return authorModel;
 
     }
 
-    public int addAutor(NewArticleModel model) {
+    public int addAuthor(NewArticleModel model) {
 
-        List<AutorModel> autorModels = getAllAutors();
+        List<AuthorModel> authorModels = getAllAuthors();
 
         int tmpId = 0;
 
-        for (AutorModel autorModel : autorModels) {
-            if (autorModel.getName().equals(model.getAuthorName()) && autorModel.getSurname().equals(model.getAuthorSurname())) {
-                tmpId = autorModel.getId();
+        for (AuthorModel authorModel : authorModels) {
+            if (authorModel.getName().equals(model.getAuthorName()) && authorModel.getSurname().equals(model.getAuthorSurname())) {
+                tmpId = authorModel.getId();
                 return tmpId;
             }
         }
-        System.out.println("tmpId" + tmpId);
-        jdbcTemplate.update("INSERT INTO autor (name, surname) VALUES (?, ?)",  model.getAuthorName(), model.getAuthorSurname());
+        jdbcTemplate.update("INSERT INTO author (name, surname) VALUES (?, ?)",  model.getAuthorName(), model.getAuthorSurname());
         return tmpId + 1;
 
-
-//        AutorModel autorModel = jdbcTemplate.queryForObject("SELECT * FROM autor WHERE name = ? AND surname = ?",
-//                new Object[]{model.getAuthorName(), model.getAuthorSurname()}, (rs, rowNum) -> {
-//                    if(rs.next()){
-//                        return new AutorModel(rs.getInt("id"), rs.getString("name"),rs.getString("surname"));
-//                    }
-//                    return null;
-//                }
-//                );
-//
-//        if(autorModel == null){
-//            jdbcTemplate.update("INSERT INTO autor (name, surname) VALUES (?, ?)",  model.getAuthorName(), model.getAuthorSurname());
-//        }
     }
 }

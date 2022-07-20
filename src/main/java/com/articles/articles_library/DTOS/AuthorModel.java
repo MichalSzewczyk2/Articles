@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AutorModel {
+public class AuthorModel {
     private int id;
     private String name;
     private String surname;

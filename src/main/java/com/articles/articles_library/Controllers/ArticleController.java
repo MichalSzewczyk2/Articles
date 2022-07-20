@@ -3,7 +3,6 @@ package com.articles.articles_library.Controllers;
 import com.articles.articles_library.DTOS.ArticleModel;
 import com.articles.articles_library.DTOS.NewArticleModel;
 import com.articles.articles_library.Repositories.ArticleRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +14,7 @@ public class ArticleController {
         this.articleRepository = articleRepository;
     }
 
-    @GetMapping("/allArticle")
+    @GetMapping("/allArticles")
     public Iterable<ArticleModel> getAllArticles() {
         return articleRepository.getAllArticles();
     }
@@ -30,7 +29,7 @@ public class ArticleController {
         return articleRepository.getArticleByWord(word);
     }
 
-    @RequestMapping(value = "/DeleteArticle/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/DeleteArticle/{id}", method = RequestMethod.DELETE)
     public void deleteArticle(@PathVariable int id) {
         articleRepository.deleteArticleById(id);
     }
@@ -41,6 +40,7 @@ public class ArticleController {
     }
     @PutMapping("/updateArticle")
     public void updateArticle(@RequestBody ArticleModel model){
+        System.out.println("model: "+ model);
         articleRepository.updateArticle(model);
     }
 }

@@ -15,7 +15,7 @@ public class ArticleModel {
     private ContentModel content;
     private Date publicationDate;
     private String articleName;
-    private AutorModel author;
+    private AuthorModel author;
     private Timestamp saveDate;
 
 }
